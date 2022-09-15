@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+
+    <title>CV-screener</title>
+  </head>
+  <body>
+    <div class="contaier my-5">
+      <div class="row">
+        <div class="col-md-6 mx-auto text-center">
+          <h1>Browse through the listed CV:</h1>
+          <br>
+          <br>
+          <div id="image"></div>
+          <br>
+          <br>
+          <div id="profile"></div>
+          <br>
+          <button class="btn btn-primary col-md-12" id="next">
+            Next CV -->>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const data = [
+        {
+          name: "Rishiraj Basu",
+          age: 20,
+          city: "kolkata",
+          language: "JavaScript",
+          framework: "ReactJs",
+          image: "https://randomuser.me/api/portraits/thumb/men/35.jpg",
+        },
+        {
+          name: "Rajrishi Mitra",
+          age: 20,
+          city: "Malda",
+          language: "Python",
+          framework: "Django",
+          image: "https://randomuser.me/api/portraits/thumb/men/72.jpg",
+        },
+        {
+          name: "Riya Debnath",
+          age: 21,
+          city: "West Bengal",
+          language: "JavaScript",
+          framework: "Nodejs",
+          image: "https://randomuser.me/api/portraits/thumb/women/70.jpg",
+        },
+        {
+          name: "Wanda Maximoff",
+          age: 35,
+          city: "United states of America",
+          language: "The Darkhold",
+          framework: "Wanda",
+          image: "https://randomuser.me/api/portraits/thumb/women/50.jpg",
+        },
+        {
+          name: "Doctor Strange",
+          age: 40,
+          city: "London",
+          language: "Book of Vishanti",
+          framework: "Timestone",
+          image: "https://randomuser.me/api/portraits/thumb/men/96.jpg",
+        },
+      ];
+      //  iterrators in javascript is used for itterating through the CVs
+      function CViterator(profile) {
+        let nextindex = 0;
+        return {
+          next: function () {
+            return nextindex < profile.length
+              ? { value: profile[nextindex++], done: false }
+              : {
+                  done: false,
+                };
+          },
+        };
+      }
+      //  function CViterator(profile) is being called with data array being passed as parameter and an instance is made of the following function
+      const candidates = CViterator(data);
+      nextcv()
+      //  an button eventlistener for the next button
+      const next = document.getElementById("next");
+      next.addEventListener("click", nextcv);
+      // function for displaying the next CV
+      function nextcv() {
+        const currentcv = candidates.next().value;
+        let image = document.getElementById("image");
+        let profile = document.getElementById("profile");
+        if(currentcv != undefined){
+            image.innerHTML = `<img src="${currentcv.image}" alt="This is an image of the Candidate" width='15%' height='15%'>`;
+        profile.innerHTML = `<ul class="list-group">
+                              <li class="list-group-item">Name: ${currentcv.name}</li>
+                              <li class="list-group-item">Age of the Candidate: ${currentcv.age}</li>
+                              <li class="list-group-item">Lives in: ${currentcv.city}</li>
+                              <li class="list-group-item">Profficiency: ${currentcv.language}</li>
+                              <li class="list-group-item">Currently working on: ${currentcv.framework}</li>
+                            </ul>`;
+        }
+        else{
+            alert(`End of Candidate Applications list!! Click "Ok" to restart the list show`)
+            window.location.reload()
+        }
+      }
+    </script>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

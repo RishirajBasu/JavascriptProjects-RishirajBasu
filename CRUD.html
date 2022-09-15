@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD</title>
+    <style>
+      .image {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      #btn {
+        display: block;
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 30px;
+        background-color: brown;
+        border-radius: 10px;
+      }
+    </style>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <header class="my-5">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">COURSES BANK</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Dropdown
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li>
+            </ul>
+            <form class="d-flex">
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-success" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <img
+        class="image"
+        id="c"
+        src="FILES FROM C DRIVE/course1.jpg"
+        width="40%"
+        alt=""
+      />
+      <button id="btn">change on</button>
+
+      <!-- -------------------------------------------------------------------------------------- -->
+      <div class="container mt-5 col-6">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Chapter Name"
+            aria-label="Recipient's username"
+            aria-describedby="button-addon2"
+          />
+          <button
+            class="btn btn-outline-success"
+            id="add"
+            type="button"
+            id="button-addon2"
+          >
+            add
+          </button>
+        </div>
+        <ul class="list-group" id="parentlist">
+          <li class="list-group-item d-flex justify-content-between">
+            <p class="flex-grow-1">Chapter 1</p>
+            <button class="btn btn-danger mx-2" onclick="editchapter(this)">
+              Edit
+            </button>
+            <button class="btn btn-danger" onclick="removechapter(this)">
+              Remove
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <button type="button" class="btn btn-outline-primary" id="fetchbtn">
+        Primary
+      </button>
+      <div class="container">
+        <h1>ENROLLED STUDENT LIST THROUGH Callbacks</h1>
+        <ul id="student"></ul>
+      </div>
+
+      <div class="container">
+        <h1>ENROLLED STUDENT LIST THROUGH Promises</h1>
+        <ul id="student2"></ul>
+      </div>
+
+      <div class="container">
+        <h1>student list</h1>
+        <button class="btn btn-primary" id="mybtn">your button</button>
+        <button class="btn btn-primary" id="content">fetch data</button>
+      </div>
+      <div id="content"></div>
+    </main>
+    <script>
+      let b = document.getElementById("btn");
+      let i = document.getElementById("c");
+      b.addEventListener("click", function (e) {
+        console.log(e);
+        if (b.textContent.includes("change on")) {
+          b.textContent = "change off";
+          i.src = "FILES FROM C DRIVE/finance-IMG.jpg";
+        } else {
+          b.textContent = "change on";
+          i.src = "FILES FROM C DRIVE/course1.jpg";
+        }
+      });
+      //ADDING
+
+      let a = document.getElementById("add");
+      let parentlist = document.getElementById("parentlist");
+      a.addEventListener("click", function addchapter(e) {
+        if (parentlist.children[0].textContent == "EMPTY MESSAGE") {
+          parentlist.children[0].remove();
+        }
+        let currentele = e.currentTarget;
+        let currentinput = currentele.previousElementSibling;
+        // console.log(currentinput.value);
+        let newli = document.createElement("li");
+        // newli.classList.add('list-group-item');
+        newli.className = "list-group-item d-flex justify-content-between";
+        newli.innerHTML = `<p class="flex-grow-1"> ${currentinput.value}</p> <button class="btn btn-danger  mx-2"  onclick="editchapter(this)">Edit</button> <button class="btn btn-danger" onclick="removechapter(this)">Remove</button>`;
+        parentlist.appendChild(newli);
+        console.log(parentlist.children);
+      });
+      //REMOVING
+      function removechapter(currentelement) {
+        let parentlist = document.getElementById("parentlist");
+        currentelement.parentElement.remove();
+        if (parentlist.children.length == 0) {
+          let newele = document.createElement("h3");
+          newele.classList = "d-flex justify-content-center emptymsg";
+          newele.textContent = "EMPTY MESSAGE";
+          parentlist.appendChild(newele);
+        }
+      }
+      //EDITING
+      function editchapter(currele) {
+        if (currele.textContent == "Done") {
+          currele.textContent = "Edit";
+          currele.style.backgroundColor = "red";
+          let val = currele.previousElementSibling.value;
+          let newchap = document.createElement("p");
+          newchap.classList = "flex-grow-1";
+          newchap.textContent = val;
+          currele.parentElement.replaceChild(
+            newchap,
+            currele.previousElementSibling
+          );
+        } else {
+          currele.textContent = "Done";
+          currele.style.backgroundColor = "green";
+          //element added by innerhtml
+          // let ed = currele.previousElementSibling;
+          // ed.innerHTML=`<input type="text" class="form-control" placeholder="Chapter Name" aria-label="Recipient's username" aria-describedby="button-addon2">`
+          //ELEMENT ADDED BY USING CREATE ELEMENT - HERE THE PREVIOUS INPUT VALUE IS RETAINED
+          let newele = document.createElement("input");
+          newele.type = "text";
+          newele.placeholder = "Chapter Name";
+          newele.value = currele.previousElementSibling.textContent;
+          newele.classList = "form-control";
+          // currele.parentElement.replaceChild(newele,currele.previousElementSibling)
+        }
+      }
+      //==============================================================================================
+      //  // constructor in js
+      // object prototype
+      //prototype inheritance
+      function generalcar(topspeed, color, carname) {
+        this.topspeed = topspeed;
+        this.givenname = carname;
+        this.color = color;
+        this.run = function () {
+          console.log(`the car ${this.givenname} is successfully running`);
+        };
+        this.analyse = function () {
+          console.log(
+            `this car is ${200 - this.topspeed} slower than this car ${
+              this.givenname
+            } topmodel`
+          );
+        };
+        //prototype change can only be done for objects made with constructors and not for those which are made with help of object literals
+        generalcar.prototype.price = 200000; //Declaring predefined prototype
+        generalcar.prototype.fuel = "Diesel"; //Declaring predefined prototype
+        generalcar.prototype.setName = function (name) {
+          this.givenname = name;
+        }; //Declaring predefined prototype
+      }
+      let car1 = new generalcar(20, "blue", "nissan"); //creating object through constructor
+      let car2 = new generalcar(25, "red", "nissan"); //creating object through constructor
+      console.log(car1, car2);
+      // prototype declaration method
+      const prototype = {
+        slogan: function () {
+          //  console.log('I am the best in class');
+          return "I am the best in class";
+        },
+        setname: function (newName) {
+          this.name = newName;
+        },
+      };
+      //creating obj type1
+      let emp1 = Object.create(prototype);
+      emp1.name = "rishi";
+      emp1.salray = 20000;
+      //creating obj type2
+      //  let emp1= Object.create(prototype, {
+      //    name:{value:"rishi", writable:true}, // writable part allows the user to change the value
+      //    salary:{value:20000}
+      //  })
+      // constructor declaration
+      let employee = function (name, salary, experience) {
+        this.name = name;
+        this.salary = salary;
+        this.exp = experience;
+      };
+      // object creation
+      let google = new employee("rishi", 200000, 1);
+      //prototype declaration
+      employee.prototype.slogan = function () {
+        //  console.log('I am the best in class');
+        return "I am the best in class";
+      };
+
+      function programmer(name, salary, experience, lang) {
+        employee.call(this, name, salary, experience); //inheriting from employee
+        this.lang = lang;
+      }
+      let prog = new programmer("rishi", 200, 25, "js");
+      //inheriting prototype from employee
+      prog.prototype = Object.create(employee.prototype);
+
+      //ES6 classes and inheritance
+      class Student {
+        constructor(name, marks, grade, age) {
+          (this.age = age),
+            (this.name = name),
+            (this.marks = marks),
+            (this.grade = grade);
+        }
+        slogan() {
+          return "I am a good student";
+        }
+        static multiply(a, b) {
+          return a * b;
+        }
+      }
+      // console.log(Student.multiply(2,3))
+      class Programmer extends Student {
+        constructor(name, marks, grade, age, language, github, array) {
+          super(name, marks, grade, age);
+          this.language = language;
+          this.github = github;
+          this.array = array;
+        }
+        favlang() {
+          if (this.language == "javascript") {
+            return `${this.name}'s favourite language is Javascript`;
+          } else {
+            return `${this.name}'s favourite language is ${this.language}`;
+          }
+        }
+      }
+      // Creation of the object of class name sTUDENT
+      let student1 = new Student("Rishi", 65, "A", 14);
+      let proger = new Programmer("Rishi", 65, "A", 14, "Go", "rishi@2002", [
+        "apple",
+        "mango",
+      ]); //arrays elements can also be given as inputs.
+
+      delete proger.github; // Here the instance github is deleted from the constructor.
+      proger.array.splice("apple", 1); //here the element as wanted is deleted from the array
+      console.log(proger);
+
+      // college library class assignment
+      class library {
+        constructor(bookname) {
+          this.book = bookname;
+        }
+        //prototype declaration
+        static getbooklist(bookname) {
+          // gives the name of the books in the library
+          return `the Booklist of the following library are as follows:
+        ${bookname}`;
+        }
+        //function declaration
+        static issuedbooks(issuedbook, studentname) {
+          return `${issuedbook} has been issued by ${studentname}`;
+        }
+        static returnbook(list, returnedbook, user) {
+          console.log(`${returnedbook} has been returned by ${user}`);
+          let booklist = list;
+          booklist.splice(returnedbook, 1);
+          console.log("the updated booklist is given by: ", booklist);
+        }
+      }
+      let collegeLibrary = new library(["b1", "b2", "b3"]);
+      console.log(library.getbooklist(["b1", "b2", "b3"]));
+      console.log(library.issuedbooks("b1", "rishi"));
+      console.log(library.returnbook(["b1", "b2", "b3"], "b1", "rishi"));
+
+      // AJAX IN ONE VIDEO:
+      console.log("this is ajax tut");
+      let fetchbtn = document.getElementById("fetchbtn");
+      fetchbtn.addEventListener("click", btnclickhandler);
+      function btnclickhandler() {
+        console.log("fetchbtn has been clicked");
+        // instantiate an xhr object
+        let xhr = new XMLHttpRequest();
+        //open the object
+        //get request
+        // true signifies for an asynchronous request and false for a blocking request
+        // xhr.open('GET', 'clglibrary.html', true );
+
+        // This means that the last console after the xhr.send() will be executed after xhr.send() is executed
+        // xhr.open('GET', 'https://jsonplaceholder.typicode.com/todos/1', false );
+
+        // This means that the last console after the xhr.send() will be executed before xhr.send() is executed
+        // xhr.open('GET', 'https://jsonplaceholder.typicode.com/todos/1', true );
+
+        // Post request
+        xhr.open("POST", "http://dummy.restapiexample.com/api/v1/create", true);
+
+        xhr.getResponseHeader("Content-type", "application/json");
+        //what to do when the request is on progress
+        xhr.onprogress = function () {
+          console.log("this is on progress");
+        };
+        // check the ready state change. check the codes of ready state change
+        // here whenever the state changes this function is called and hence this doesnt follow the flow of the code
+        //ready state change codes:
+
+        // 0	UNSENT	Client has been created. open() not called yet.
+        // 1	OPENED	open() has been called.
+        // 2	HEADERS_RECEIVED	send() has been called, and headers and status are available.
+        // 3	LOADING	Downloading; responseText holds partial data.
+        // 4	DONE	The operation is complete.
+
+        xhr.onreadystatechange = function() {
+          console.log("ready state change code is : ", xhr.readyState);
+        };
+        //what to do when the progress response is ready
+        //check the http status code
+        xhr.onload = function () {
+          if (this.status === 200) {
+            console.log(this.responseText);
+          } else {
+            console.error("some error occured");
+          }
+        };
+        //not-working
+        PARAS = `"name":"test456","salary":"123","age":"23"`;
+        // send the request. all the above function will start working once the request is sent at this point
+        xhr.send("PARAS");
+        console.log("we are done with the request");
+      }
+
+      //callback functions:  these are functions being called within functions
+      const students = [
+        { name: "rishi", sub: "javascript" },
+        { name: "raj", sub: "java" },
+      ];
+      function enrolls(student, callback) {
+        setTimeout(function () {
+          students.push(student);
+          console.log("student has been pushed successfully");
+          callback();
+        }, 1000);
+      }
+      function getstudent() {
+        setTimeout(function () {
+          let str = "";
+          students.forEach(function (student) {
+            str += `<li>${student.name}</li>`;
+          });
+          document.getElementById("student").innerHTML = str;
+        }, 2000);
+      }
+      let newst = { name: "basu", sub: "script" };
+      enrolls(newst, getstudent);
+      //Promise - an predefined object in javascript
+      // The above task will be performed by Promises instead of callbacks
+      // Promises has three parts:
+      //1. resolve() -- .then()
+      //2. reject() -- .catch()
+      //3. pending
+
+      function enrolls2(student) {
+        return new Promise(function (resolve, reject) {
+          setTimeout(() => {
+            students.push(student);
+            console.log("student has been pushed successfully");
+            let error = false;
+            if (!error) {
+              console.log("the enrollment process has been initiated");
+              resolve();
+            } else {
+              console.log("the enrollment process has been declined");
+              reject();
+            }
+          }, 2000);
+        });
+      }
+      function getstudent2() {
+        setTimeout(function() {
+          let str = "";
+          students.forEach(function (student) {
+            str += `<li>${student.name}</li>`;
+          });
+          document.getElementById("student2").innerHTML = str;
+        }, 2000);
+      }
+      let newst2 = { name: "Riya", sub: "javascript" };
+      enrolls2(newst2)
+        .then(getstudent2)
+        .catch(() => {
+          console.log("Sorry it has not worked properly");
+        });
+
+      // fetch API
+      let mybtn = document.getElementById("mybtn");
+      let content = document.getElementById("content");
+      //  fetching and displaying of data
+      // fetch returns to back to back inorder promises
+      function getdata() {
+        let url = "text.txt";
+        // const fetch = require('node-fetch')
+        fetch(url)
+          .then((response) => {
+            return response.text();
+          })
+          .then((data) => {
+            console.log(data);
+          });
+      }
+      getdata();
+
+      //  async  and await
+
+      // async function getdone(){
+      //   let url ="text.txt";
+      //   console.log('inside the async function')
+      //   let response = await fetch(url);
+      //   console.log("after initialising the await function")
+      //   let txttext= await response.text();
+      //   return txttext;
+      // }
+      // console.log("before calling the getdone function")
+      // let as = getdone()
+      // console.log("after calling the getdone function")
+      // console.log(as)
+
+      // custom error throwing - handling and try, catch
+      // let raj
+      // if(raj==undefined){
+      //   throw new Error('this is undefined')
+      // }
+      // here inside the:
+      // try block: the given functional lines are tried to be executed
+      // catch block: if the lines in the try block fails to be executed then this comes into play showing the errors as defined
+      //finally block: here irrespective of the try / catch block being executed - this block is executed acc
+      try {
+        console.log(kghjfgh);
+      } catch (error) {
+        console.log(error.message);
+        console.log(error);
+        console.log("error has been thrown");
+      } finally {
+        console.log("we have come to the end");
+      }
+
+      // regular expressions in javascript
+
+      // initialising a  regular expressions
+      // let reg =/rishi/;
+
+      // console.log(reg)
+      reg = /rishi/g; // g makes the regular exp to be global which means all the matches are checked even if one of the matches have been got previously
+
+      console.log(reg);
+      // reg =/rishi/i; // i makes the reg exp case insensitive which means all the matches are checked irrespective of cases
+
+      // console.log(reg)
+
+      console.log(reg.source); // this gives the regular exp text
+      let string = "The best man in the world is rishi and rishi is the best";
+      // functions in regex
+      // 1.
+      let result = reg.exec(string); // the function will return an array for match or null with the index starting from 0
+
+      console.log(result); // this will give the index corresponding to the first match
+      console.log(result); // this will give the index corresponding ot the next match as the reg exp is global
+      console.log(result); // this will give the index corresponding ot the next match as the reg exp is global
+      // 2.
+      let result2 = reg.test(string); // returns true only when the reg is matched with string or false
+      console.log(result2);
+
+      // 3.
+      let result3 = string.match(reg); // returns an array of results( for multiple matches) else a null.
+      console.log(result3);
+      // 4.
+      let result4 = string.search(reg); // returns index of the first match in the string else -1
+      console.log(result4);
+
+      // 5.
+      let result5 = string.replace(reg, "raj"); // returns index of the first match in the string else -1
+      console.log(result5);
+
+      let regex = /rishi/g;
+      // metacharacters in regex
+      regex = /^ri/; // ^ - means expresssions must start with the given regex
+      regex = /shi$/; //$ - means expresssions must end with the given regex
+      regex = /r.shi/; //. - means any one character must be present in the given position of the dot
+      regex = /r*hi/; // * - means zero or more character must be present in the given position of the star
+      regex = /ri?shia?/; // ? - this implies that the characters after which ? is given is checked as optional characters - doesnt impact the result
+      regex = /ri\*shi/; // "\" helps to give metacharacters also as characters to be checked accordingly
+
+      // character sets in regex: - we use [] for character sets
+      // we can have as many character sets as we want to
+      //  regex= /r[a-z]shi/g; // this allows characters from [a-z] to be checked for regex exp
+      regex = /r[ish]shi/g; // this allows characters among i,s or h to be checked for regex exp
+      regex = /r[^aty]shi/g; // this doesnot allows characters among a,t or y to be checked for regex exp
+      regex = /r[^aty]sh[dyi]/g; // this doesnot allows characters among a,t or y + can have d, y, or i to be checked for regex exp
+      regex = /r[a-zA-Z]sh[dyi0-9]/g; // this allows characters among a-z or A_Z + can have d, y, or i or 0-9 + 0-9 to be checked for regex exp
+
+      //  quantifiers - we use{}
+      //  this is used to specify as many characters as we want
+      // regex=/ri{3}shi/ // i can occur exactly 3 times as mentioned
+      // regex=/ri{0,3}shi/ // i can occur exactly 0 to 3 (0 or 1 or 2 or 3) times as mentioned
+      // groupings - we use()
+      // this is used to group a set of characters as many times as we want to
+
+      regex = /(ri){3}shi/; // here (ri) is allowed to repeat exactly 3 times as mentioned
+      //regex - shorthand properties for regex
+      console.log("shorthand properties for regex is here");
+      regex = /\wri/; //word character or alphabet or number
+      regex = /\w+ri/; //word character or alphabet or number
+      regex = /\Wri/; //non-word character
+      regex = /\W+ri/; //more than one non-word character
+      regex = /rishi\d/; // means one digit character
+      regex = /rishi\d+/; // means more than one digit characters
+      regex = /hi\D/; // means one non-digit character
+      regex = /hi\D+/; // means more than one non-digit character
+      regex = /\sri/; // means whitespaced characters are given along with the matched pattern
+      regex = /\s+rishi/; // means whitespaced characters are given along with the matched pattern
+      regex = /\Sshi/; // means one non-whitespaced character is given along with the matched pattern
+      regex = /\S+rishi/; // means more than one whitespaced characters are given along with the matched pattern
+      regex = /\bish\b/; // word boundary -- not working
+
+      // Assertions
+      regex = /r(?=i)/;
+      regex = /r(?!s)/;
+
+      let str =
+        "ri*shi is a sexy boy whos right now a wanna be  rishi25. riiishi likes to be loved by riririshi";
+      let answer = regex.exec(str);
+      if (regex.test(str)) {
+        console.log(answer);
+      } else {
+        console.log("the expression doesnot match");
+      }
+
+      //iterators in javascript
+      console.log("iterators in javascript");
+      //iterators
+      function fooditerators(values) {
+        let nextindex = 0;
+        //  we will return an object
+        return {
+          next: function () {
+            if (nextindex < values.length) {
+              // we will return below object
+              return {
+                value: values[nextindex++],
+                done: false,
+              };
+            } else {
+              // we will return below obj with only done
+              return {
+                done: true,
+              };
+            }
+          },
+        };
+      }
+      const arr = ["kebab", "eggroll", "muttonbruhhkebab"];
+      console.log("my array is: ", arr);
+      //using iterators to print values
+      let food = fooditerators(arr);
+      console.log(food.next().value);
+      console.log(food.next().value);
+      console.log(food.next().value);
+      console.log(food.next().done);
+
+      // generators
+
+      console.log("Generators in javascript");
+      function* number() {
+        let i = 0;
+        while (true) {
+          yield i++;
+          //  yield(i++).toString();
+        }
+      }
+      const gen = number();
+      for (let i = 0; i <= 5; i++) {
+        console.log(gen.next().value);
+      }
+      // for-loop vs for-in loop vs for-of loop
+
+      const obj = {
+        name: "rishi",
+        lang: "javascript",
+      };
+
+      // itterating in an object:
+      arry = ["rishiraj", "javascript"];
+      //  traditional method:
+      console.log("Traditional for-loop");
+      for (let i = 0; i < Object.keys(obj).length; i++) {
+        console.log(Object.keys(obj)[i]);
+      }
+      // for-in loop - used for objects , arrays , strings
+      console.log("Objects using for-in loop");
+      for (keys in obj) {
+        console.log(obj[keys]);
+      }
+      console.log("Arrays using for-in loop");
+      for (keys in arry) {
+        console.log(arry[keys]);
+      }
+      let stri = "RISHI";
+      console.log("Strings uding for-in loop");
+      for (keys in stri) {
+        console.log(stri[keys]);
+      }
+      // for-of loop - used for only itterable objects like arrays and strings
+      console.log("for-of loop");
+      for (let keys of arry) {
+        console.log(keys);
+      }
+      let s = "I LOVE RISHIRAJ";
+      console.log("sTRINGS uding for-of loop");
+      for (let keys of s) {
+        console.log(keys);
+      }
+      // Maps in Javascript:
+      // its like an object with a key value pair
+      //  here we can use any type of key or value
+      const mymap = new Map();
+      //  initialising the keys
+      let key1 = "this is key one",
+        key2 = () => {
+          console.log("this an arrow funciton used key");
+        },
+        key3 = { value: "this is key three" };
+      // setting mapvalues:
+      mymap.set(key1, "rishiraj has initialised a key1");
+      mymap.set(key2, function () {
+        console.log("this is a map function");
+      });
+      mymap.set(key3, "this is an obj initialised by a key");
+      console.log(mymap);
+      // to print the values from the key in the mymap
+      console.log(mymap.get(key1));
+      console.log(mymap.get(key2));
+      console.log(mymap.get(key3));
+
+      // getting the size of the mymap
+      console.log(mymap.size);
+      // getting the keys, values of mymap using for..of loop
+      for ([key, value] of mymap) {
+        console.log(key, value);
+      }
+
+      // getting only keys from mymap
+      for (keys of mymap.keys()) {
+        console.log("the keys of the object mymap are: ", keys);
+      }
+      // getting only values from mymap
+      for (values of mymap.values()) {
+        console.log("the values of the object mymap are: ", values);
+      }
+      // traversing using the foreach loop
+      mymap.forEach((value, key) => {
+        console.log(`"the keys are ${key} and the values are ${value}"`);
+      });
+      // converting the mymap object map into an arrray
+      console.log(Array.from(mymap));
+      // converting the keys of the mymap object map into an arrray
+      console.log(Array.from(mymap.keys()));
+      // converting the values of the mymap object map into an arrray
+      console.log(Array.from(mymap.values()));
+
+      // sets in javascript
+      // [ stores unique and non-repetative values and prevents an kind of repetative values and ignores any kind of repetation]
+      // initialising an empty set
+      let set = new Set();
+      // ADDING VALUES TO SET
+      // way 1
+      set.add("hello");
+      set.add("rishiraj");
+      set.add(function () {
+        console.log("I'm riya");
+      });
+      set.add(false);
+      set.add(true);
+      set.add(true); // this duplicate value is not added to the set by the browser to maintain the cincept of the string
+      set.add(5641);
+      console.log("This is my set: ", set);
+      // way 2
+      let set2 = new Set([
+        "hello",
+        "rishiraj",
+        function () {
+          console.log("I'm riya");
+        },
+        false,
+        true,
+        5641,
+      ]);
+      console.log("This is my set: ", set2);
+      // printing the size
+      console.log(set.size);
+      //  traversing using for..of loop
+      for (values of set) {
+        console.log(values);
+      }
+      //  traversing using for..each loop
+      set.forEach((values) => {
+        console.log(values);
+      });
+      // Q. REMOVE DUPLICATE ITEMS FORM AN ARRAY USING SET
+      // converting the set into array
+      console.log("the converted set into an array", Array.from(set));
+      // converting it backk to set
+      let newset = new Set(set);
+      console.log("the converted set from an array is: ", newset);
+      // symbols in javascript
+      // it is a primitive datatype and not an object
+      // it used to made unique keys for the objects with the help of primitive datatype
+      const k1 = Symbol("this is an identifier");
+      const k2 = Symbol("this is an identifier");
+      const k3 = Symbol(); //without any identifier
+      let obj2 = {};
+      obj2[k1] = "value1";
+      obj2[k2] = "value2";
+      obj2[k3] = "value3";
+      console.log(obj2);
+      console.log(obj2);
+      for (key in obj2) {
+        console.log("this is inside for in loop");
+        console.log(key, obj2[key]);
+      }
+      console.log(JSON.stringify(obj2));
+      // console.log(obj2.k2)
+      // ALERT: this cannot be done to get the value of k2 as k2 is not a string but a variable
+
+      // Destructing in javascript
+      // destructing in arrays
+
+      //   let a1, b1,c1,d1;
+      //   [a1, b1] = [23, 56];
+      //   [a1,b1,c1,...d1]=[45,64,89,90,100,500,2] // d is initialised as an array
+      //   console.log(a1, b1,c1,d1);
+      //   let z,y,w;
+      //   ({z,y,w}={z:4,y:5,w:56})
+      //   console.log(z,y,w)
+      // // assigning an array by destructuring
+      // let fruits=["apple","banana","orange"]
+      // console.log(fruits)
+      // [a1,b1,c1] = fruits;
+      // console.log(a1,b1,c1)
+    </script>
+  </body>
+</html>
