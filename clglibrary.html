@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <title>Basu-libaray</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">COURSES BANK</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle text-light"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Dropdown
+              </a>
+              <ul
+                class="dropdown-menu text-light"
+                aria-labelledby="navbarDropdown"
+              >
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider"/></li>
+                <li>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+          <form class="d-flex">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-light" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <!-- adding alert below the navbar -->
+    <div id="alertmessage"></div>
+    <div class="container my-5">
+      <h1>Library Store</h1>
+      <hr />
+      <form id="libraryform">
+        <div class="row mb-3">
+          <label for="inputEmail3" class="col-sm-2 col-form-label"
+            >Book Name:
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="bookname" required />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="inputPassword3" class="col-sm-2 col-form-label"
+            >Author Name:
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="authorname" required />
+          </div>
+        </div>
+        <fieldset class="row mb-3">
+          <legend class="col-form-label col-sm-2 pt-0">Book Type:</legend>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="Type"
+                id="friction"
+                value="friction"
+                checked
+                required
+              />
+              <label class="form-check-label" for="friction"> Friction </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="Type"
+                id="programming"
+                value="programming"
+                required
+              />
+              <label class="form-check-label" for="programming">
+                Programming
+              </label>
+            </div>
+            <div class="form-check disabled">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="Type"
+                id="psychology"
+                value="Psychology"
+                required
+              />
+              <label class="form-check-label" for="Psychology">
+                Psychology
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    <div class="container">
+      <h1>BOOK BANK</h1>
+      <hr />
+      <table class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Book No.</th>
+            <th scope="col">Bookname</th>
+            <th scope="col">Author</th>
+            <th scope="col">Type</th>
+          </tr>
+        </thead>
+        <tbody id="tablebody"></tbody>
+      </table>
+    </div>
+    <!-- on program Javascript -->
+    <script>
+
+      // features to be added:
+      //  1. storing the data in local storage so that the data doesnot get vanished on refreshing the page
+      //  2. putting a horizontal and vertical scrollbar 
+      //  3. using the search function for filtering the books by name and author
+      //  4. implementing the project using classes instead of objects
+      //  5. styling of the UI is to be improved
+      //  6. modify the faulty book number feature 
+
+
+      // declaring a constructor function "book"
+      function book(name, author, type) {
+        this.name = name;
+        this.author = author;
+        this.type = type;
+      }
+
+      //  displaying the constructor
+      function Display() {}
+
+      // adding function to display prototype
+      // implementing the add function
+      Display.prototype.add = function (book) {
+        let number=1;
+        console.log("adding to the table UI");
+        let stringui = `<tr>
+              <th scope="row">${number++}</th>
+              <td>${book.name}</td>
+              <td>${book.author}</td>
+              <td>${book.type}</td>
+            </tr>`;
+        let tablebody = document.getElementById("tablebody");
+        tablebody.innerHTML += stringui;
+      };
+      // implementing the clear function
+      Display.prototype.clear = function () {
+        let libraryform = document.getElementById("libraryform");
+        // The ".reset()" function clears the form input 'onSubmit' but doesnot reload the page
+        libraryform.reset();
+      };
+      // implementing the validate function
+      Display.prototype.validate = function (book) {
+        if (book.name.length > 2 || book.author.length > 2) {
+          return true;
+        } else {
+          return false;
+        }
+      };
+      // implementing the show function
+      Display.prototype.show = function (conformation, message) {
+        let alertmessage = document.getElementById("alertmessage");
+
+        if (conformation === "success") {
+          alertmessage.innerHTML = `<!-- for the symbols -->
+        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </symbol>
+        <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        </symbol>
+        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </symbol>
+        </svg>
+
+        <!-- the alert -->
+                            
+        <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+        <div> 
+          ${message} 
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+        } 
+
+        else {
+          alertmessage.innerHTML = `<!-- for the symbols -->
+        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </symbol>
+        <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        </symbol>
+        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </symbol>
+        </svg>
+                 
+      <!-- the alert -->
+
+      <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div>
+          ${message} 
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+        }
+        setTimeout(function(){
+          alertmessage.innerHTML=''
+        },1500)
+      };
+
+      // add submit event listener to form
+      let libraryform = document.getElementById("libraryform");
+      // adding event listener on submit
+      libraryform.addEventListener("submit", libraryformsubmit);
+
+      function libraryformsubmit(e) {
+       
+        console.log("This is the library form came on submit");
+        let name = document.getElementById("bookname").value;
+        let author = document.getElementById("authorname").value;
+        let type;
+        let friction = document.getElementById("friction");
+        let psychology = document.getElementById("psychology");
+        let programming = document.getElementById("programming");
+        //The ".checked" operator checks whether the following option is clicked or not among the radio options
+        if (friction.checked) {
+          type = friction.value;
+        } else if (programming.checked) {
+          type = programming.value;
+        } else if (psychology.checked) {
+          type = psychology.value;
+        }
+        // object declaration and sending the inputs for the constructor function "book"
+        let newbook = new book(name, author, type);
+        console.log(newbook);
+        let display = new Display();
+        // adding validation to form inputs: all the inputs which violates the given constrains fails the validation and hence fails to get added
+        if (display.validate(book)) {
+         
+          display.add(newbook);
+          //calling the user defined prototype of the object display
+          display.clear();
+          //show function to show the alert
+          display.show(
+            "success",
+            " Congrats!! Your inputs have been successfully stored"
+          );
+        } else {
+          display.show(
+          "error",
+          " Sorry!! Your inputs are invalid");
+        }
+        // prevents the default behaviour of FORMS to reload the page everytime we click the submit button
+        e.preventDefault();
+      }
+      
+    </script>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
+ 
